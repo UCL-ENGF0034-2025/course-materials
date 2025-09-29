@@ -260,3 +260,7 @@ __marimo__/
 *.auxlock
 # LaTeX Beamer Template folder
 LaTeX Beamer Template/
+
+#Future material
+week3.pdf
+Week 1/src
