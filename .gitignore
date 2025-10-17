@@ -258,9 +258,11 @@ __marimo__/
 *.dpth
 *.md5
 *.auxlock
+*.synctex
+*.synctex(busy)
 # LaTeX Beamer Template folder
 LaTeX Beamer Template/
 
 #Future material
-week3.pdf
+week4.pdf
 Week 1/src
