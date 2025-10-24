@@ -24,14 +24,7 @@ def merge(lst1, lst2, compare):
             merged_list.append(lst2[index2])
             index2 += 1
 
-    return merged_list
-
-# def test_mergesort():
-#     assert(mergesort([]) == [])
-#     assert(mergesort([1]) == [1])
-#     assert(mergesort([1,2,3,4]) == [1,2,3,4])
-#     assert(mergesort([4,3,2,1]) == [1,2,3,4])
-#     assert(mergesort([5,4,3,2,1]) == [1,2,3,4,5])                
+    return merged_list              
 
 def cmp_str(s1, s2):
     return s1.lower() < s2.lower()
