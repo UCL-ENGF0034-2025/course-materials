@@ -1,0 +1,4 @@
+{
+    "latex-workshop.latex.autoBuild.run": "onFileChange",
+    "latex-workshop.latex.outDir": "%DIR%"
+}
