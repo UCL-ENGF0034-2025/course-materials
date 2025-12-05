@@ -12,6 +12,8 @@ Last updated: 17.03.2025
 First we load the necessary libraries.
 """
 
+from __future__ import annotations
+from typing import Union
 import math
 
 # ## Dual numbers and automatic differentiation
@@ -42,11 +44,11 @@ import math
 
 class Dual:
     
-    def __init__(self, real, dual):
+    def __init__(self, real: float | int, dual: float | int):
         self.real = real
         self.dual = dual
         
-    def __add__(self, argument):
+    def __add__(self, argument: Dual | float | int) -> Dual:
         if isinstance(argument, Dual):
             return Dual(self.real + argument.real, self.dual + argument.dual)
         else:
@@ -54,16 +56,16 @@ class Dual:
         
     __radd__ = __add__
     
-    def __sub__(self, argument):
+    def __sub__(self, argument: Dual | float | int) -> Dual:
         if isinstance(argument, Dual):
             return Dual(self.real - argument.real, self.dual - argument.dual)
         else:
             return Dual(self.real - argument, self.dual)
         
-    def __rsub__(self, argument):
+    def __rsub__(self, argument: float | int) -> Dual:
         return Dual(argument, 0) - self
     
-    def __mul__(self, argument):
+    def __mul__(self, argument: Dual | float | int) -> Dual:
         if isinstance(argument, Dual):
             return Dual(self.real * argument.real, self.real * argument.dual + \
                 self.dual * argument.real)
@@ -72,7 +74,7 @@ class Dual:
         
     __rmul__ = __mul__
     
-    def __truediv__(self, argument):
+    def __truediv__(self, argument: Dual | float | int) -> Dual:
         if isinstance(argument, Dual):            
             if argument.real == 0:
                 raise ZeroDivisionError('Real part of dual number is zero.')
@@ -85,20 +87,20 @@ class Dual:
             else:
                 return Dual(self.real / argument, self.dual)
         
-    def __rtruediv__(self, argument):
+    def __rtruediv__(self, argument: float | int) -> Dual:
         return Dual(argument, 0).__truediv__(self)
         
-    def __neg__(self):
+    def __neg__(self) -> Dual:
         return Dual(-self.real, -self.dual)
     
-    def __pow__(self, power):
+    def __pow__(self, power: float | int) -> Dual:
         if power < 1:
-            print('The power needs to be larger than one.')
+            raise ValueError('The power needs to be larger than one.')
         else:
             return Dual(self.real ** power, power * self.dual * (self.real ** \
                             (power - 1)))
     
-    def __repr__(self):                    
+    def __repr__(self) -> str:                    
         if self.dual == 0:
             representation = repr(self.real)    
         elif self.dual == 1:
@@ -111,7 +113,7 @@ class Dual:
             representation = repr(self.real) + ' - ' + repr(-self.dual) + ' * epsilon'
         return representation
     
-    def __str__(self):
+    def __str__(self) -> str:
         if self.dual == 0:
             representation = str(self.real)    
         elif self.dual == 1:
@@ -155,22 +157,22 @@ print(polynomial)
 # 
 # **tanh** : $\tanh(a + \varepsilon \, b)$
 
-def log(dual_number):
+def log(dual_number: Dual) -> Dual:
     return Dual(math.log(dual_number.real), dual_number.dual / dual_number.real)
 
-def exp(dual_number):
+def exp(dual_number: Dual) -> Dual:
     return Dual(math.exp(dual_number.real), dual_number.dual * math.exp(dual_number.real))
     
-def sin(dual_number):
+def sin(dual_number: Dual) -> Dual:
     return Dual(math.sin(dual_number.real), dual_number.dual * math.cos(dual_number.real))
     
-def cos(dual_number):
+def cos(dual_number: Dual) -> Dual:
     return Dual(math.cos(dual_number.real), - dual_number.dual * math.sin(dual_number.real))
 
-def sigmoid(dual_number):
+def sigmoid(dual_number: Dual) -> Dual:
     return 1/(1 + exp(-dual_number))
 
-def tanh(dual_number):
+def tanh(dual_number: Dual) -> Dual:
     return Dual(math.tanh(dual_number.real), dual_number.dual * (1 - (math.tanh( \
                 dual_number.real) ** 2)))
 
@@ -201,7 +203,3 @@ y = Dual(100, 0)
 w = [Dual(-1, 0), Dual(5, 0), Dual(3/2, 0), Dual(-1/3, 1), Dual(20, 0)]
 f = 1/2*(tanh(w[4]*tanh(w[3]*tanh(w[2]*tanh(w[1]*tanh(w[0] * x))))) - y) ** 2
 print(f.dual)
-
-# This is the end of this notebook.
-
-
