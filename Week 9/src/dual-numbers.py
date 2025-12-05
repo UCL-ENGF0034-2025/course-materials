@@ -13,7 +13,6 @@ First we load the necessary libraries.
 """
 
 from __future__ import annotations
-from typing import Union
 import math
 
 # ## Dual numbers and automatic differentiation
